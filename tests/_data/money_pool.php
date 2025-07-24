@@ -1,0 +1,31 @@
+<?php
+return [
+    [
+        'mpool_id' => 1,
+        'group_id' => 1,
+        'set_mpool_goal' => 1000.00,
+        'mpool_url' => 1,
+        'mpool_qr_code' => 'QR1',
+        'mpool_creator_id' => 1,
+        'duration' => 30,
+        'mpool_motivation' => 'Party',
+        'mpool_title' => 'Alpha Pool',
+        'mpool_end_date' => 20240201,
+        'created_at' => '2024-01-01 10:00:00',
+        'updated_at' => '2024-01-01 10:00:00',
+    ],
+    [
+        'mpool_id' => 2,
+        'group_id' => 2,
+        'set_mpool_goal' => 2000.00,
+        'mpool_url' => 2,
+        'mpool_qr_code' => 'QR2',
+        'mpool_creator_id' => 2,
+        'duration' => 60,
+        'mpool_motivation' => 'Travel',
+        'mpool_title' => 'Beta Pool',
+        'mpool_end_date' => 20240301,
+        'created_at' => '2024-01-02 11:00:00',
+        'updated_at' => '2024-01-02 11:00:00',
+    ],
+]; 

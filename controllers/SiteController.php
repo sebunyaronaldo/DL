@@ -267,6 +267,8 @@ class SiteController extends Controller
         $withdrawsOverTime = $groupByMonth(\app\models\Withdraw::class, 'created_at', 'withdraw_amount');
         $savingsOverTime = $groupByMonth(\app\models\SavingsPot::class, 'created_at', 'savings_pot_amount');
         $moneyPoolsOverTime = $groupByMonth(\app\models\MoneyPool::class, 'created_at');
+        // Total user amount collected (sum of all contributions)
+        $totalUserAmountCollected = (float)\app\models\ContributionTracker::find()->sum('amount');
         return [
             'totalContributionsPerUser' => $contribPerUser,
             'newUsers' => $newUsers,
@@ -284,6 +286,7 @@ class SiteController extends Controller
             'withdrawsOverTime' => $withdrawsOverTime,
             'savingsOverTime' => $savingsOverTime,
             'moneyPoolsOverTime' => $moneyPoolsOverTime,
+            'totalUserAmountCollected' => $totalUserAmountCollected,
         ];
     }
 }

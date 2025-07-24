@@ -4,6 +4,9 @@ $this->title = 'Analytics Dashboard';
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <h1 class="mb-4 text-primary">Analytics Dashboard</h1>
+<div class="alert alert-success text-center" style="font-size:1.5em;">
+    Total User Amount Collected: <span id="total-user-amount-collected"></span>
+</div>
 <table id="dashboard-summary" class="table table-bordered border-primary table-striped w-auto mb-4">
     <thead class="table-primary">
         <tr>
@@ -149,6 +152,7 @@ function updateDashboard() {
     fetch('<?= Url::to(['site/dashboard-data']) ?>')
         .then(response => response.json())
         .then(data => {
+            document.getElementById('total-user-amount-collected').textContent = data.totalUserAmountCollected;
             document.getElementById('new-users').textContent = data.newUsers;
             document.getElementById('new-groups').textContent = data.newGroupsThisWeek;
             document.getElementById('money-pools').textContent = data.moneyPoolsTotals;
