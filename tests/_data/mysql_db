@@ -1,0 +1,217 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               8.2.0 - MySQL Community Server - GPL
+-- Server OS:                    Win64
+-- HeidiSQL Version:             11.0.0.5919
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- Dumping database structure for dlkaka
+CREATE DATABASE IF NOT EXISTS `dlkaka` /*!40100 DEFAULT CHARACTER SET armscii8 COLLATE armscii8_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `dlkaka`;
+
+-- Dumping structure for table dlkaka.contribution_tracker
+CREATE TABLE IF NOT EXISTS `contribution_tracker` (
+  `cont_track_id` int NOT NULL AUTO_INCREMENT,
+  `amount` double DEFAULT NULL,
+  `group_id` int DEFAULT NULL,
+  `mpool_id` int DEFAULT NULL,
+  `withdraw_id` int DEFAULT NULL,
+  `deposit_id` int DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `contribution_date` date DEFAULT NULL,
+  PRIMARY KEY (`cont_track_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.contribution_tracker: 0 rows
+/*!40000 ALTER TABLE `contribution_tracker` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contribution_tracker` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.deposits
+CREATE TABLE IF NOT EXISTS `deposits` (
+  `deposit_id` int NOT NULL AUTO_INCREMENT,
+  `deposit_mm_number` int DEFAULT NULL,
+  `deposit_refer` varchar(50) DEFAULT NULL,
+  `deposit_email` varchar(50) DEFAULT NULL,
+  `depositor_name` varchar(50) DEFAULT NULL,
+  `depositor_userid` int DEFAULT NULL,
+  `deposit_amount` double DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deposit_date` date DEFAULT NULL,
+  PRIMARY KEY (`deposit_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.deposits: 0 rows
+/*!40000 ALTER TABLE `deposits` DISABLE KEYS */;
+/*!40000 ALTER TABLE `deposits` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.groups
+CREATE TABLE IF NOT EXISTS `groups` (
+  `group_id` int NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(50) DEFAULT NULL,
+  `group_limit` double DEFAULT NULL,
+  `group_total` double DEFAULT NULL,
+  `group_lead` varchar(50) DEFAULT NULL,
+  `group_image` varchar(500) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`group_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.groups: 2 rows
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` (`group_id`, `group_name`, `group_limit`, `group_total`, `group_lead`, `group_image`, `created_at`, `updated_at`) VALUES
+	(1, 'monthly', 100000, 14, '1', NULL, '2025-07-24 06:48:52', '2025-07-24 06:48:52'),
+	(2, 'weekly', 100000, 5, '1', NULL, '2025-07-24 06:48:52', '2025-07-24 06:48:52');
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.group_members
+CREATE TABLE IF NOT EXISTS `group_members` (
+  `group_member_id` int NOT NULL AUTO_INCREMENT,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int DEFAULT NULL,
+  `group_id` int DEFAULT NULL,
+  PRIMARY KEY (`group_member_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.group_members: 4 rows
+/*!40000 ALTER TABLE `group_members` DISABLE KEYS */;
+INSERT INTO `group_members` (`group_member_id`, `created_at`, `updated_at`, `user_id`, `group_id`) VALUES
+	(1, '2025-07-24 07:12:51', '2025-07-24 07:12:51', 1, 1),
+	(2, '2025-07-24 07:12:51', '2025-07-24 07:12:51', 2, 1),
+	(3, '2025-07-24 07:12:51', '2025-07-24 07:12:51', 3, 1),
+	(4, '2025-07-24 07:12:51', '2025-07-24 07:12:51', 4, 2);
+/*!40000 ALTER TABLE `group_members` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.money_pool
+CREATE TABLE IF NOT EXISTS `money_pool` (
+  `mpool_id` int NOT NULL AUTO_INCREMENT,
+  `group_id` int DEFAULT NULL,
+  `set_mpool_goal` double DEFAULT NULL,
+  `mpool_url` int DEFAULT NULL,
+  `mpool_qr_code` varchar(50) DEFAULT NULL,
+  `mpool_creator_id` int DEFAULT NULL,
+  `duration` int DEFAULT NULL,
+  `mpool_motivation` varchar(100) DEFAULT NULL COMMENT 'movies,party,travel',
+  `mpool_title` varchar(50) DEFAULT NULL,
+  `mpool_end_date` int DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`mpool_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.money_pool: 1 rows
+/*!40000 ALTER TABLE `money_pool` DISABLE KEYS */;
+INSERT INTO `money_pool` (`mpool_id`, `group_id`, `set_mpool_goal`, `mpool_url`, `mpool_qr_code`, `mpool_creator_id`, `duration`, `mpool_motivation`, `mpool_title`, `mpool_end_date`, `created_at`, `updated_at`) VALUES
+	(1, 1, 1000000, NULL, NULL, 1, 12, 'trip', 'Trips', NULL, '2025-07-24 07:18:28', '2025-07-24 07:18:28');
+/*!40000 ALTER TABLE `money_pool` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.savings_pot
+CREATE TABLE IF NOT EXISTS `savings_pot` (
+  `savings_pot_id` int NOT NULL AUTO_INCREMENT,
+  `savings_pot_taker_curr` int DEFAULT NULL,
+  `savings_pot_prev` int DEFAULT NULL,
+  `savings_pot_amount` int DEFAULT NULL,
+  `claimed_status` tinyint DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `creation_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`savings_pot_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.savings_pot: 0 rows
+/*!40000 ALTER TABLE `savings_pot` DISABLE KEYS */;
+/*!40000 ALTER TABLE `savings_pot` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.transaction_status
+CREATE TABLE IF NOT EXISTS `transaction_status` (
+  `transact_id` int NOT NULL AUTO_INCREMENT,
+  `transact_state` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`transact_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.transaction_status: 3 rows
+/*!40000 ALTER TABLE `transaction_status` DISABLE KEYS */;
+INSERT INTO `transaction_status` (`transact_id`, `transact_state`) VALUES
+	(1, 'Failed'),
+	(2, 'Pending'),
+	(3, 'Success');
+/*!40000 ALTER TABLE `transaction_status` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.user_profile
+CREATE TABLE IF NOT EXISTS `user_profile` (
+  `user_profile_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `fname` varchar(50) DEFAULT NULL,
+  `lname` varchar(50) DEFAULT NULL,
+  `mname` varchar(50) DEFAULT NULL,
+  `mm_number` varchar(50) DEFAULT NULL,
+  `mm_number_alt` varchar(50) DEFAULT NULL,
+  `user_email` varchar(150) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `reminder` int DEFAULT NULL,
+  `group_frequency` int DEFAULT NULL,
+  `balance` double DEFAULT NULL,
+  `group_id` int DEFAULT NULL,
+  `mpool_id` int DEFAULT NULL,
+  `user_personal_invite` varchar(50) DEFAULT NULL,
+  `user_registration_date` date DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_profile_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.user_profile: 4 rows
+/*!40000 ALTER TABLE `user_profile` DISABLE KEYS */;
+INSERT INTO `user_profile` (`user_profile_id`, `user_id`, `fname`, `lname`, `mname`, `mm_number`, `mm_number_alt`, `user_email`, `location`, `reminder`, `group_frequency`, `balance`, `group_id`, `mpool_id`, `user_personal_invite`, `user_registration_date`, `created_at`, `updated_at`) VALUES
+	(1, 1, 'Test', 'Tes', NULL, '256782002233', NULL, 'test@test.com', 'Gayaza', NULL, 1, 1000000, 1, 1, 'dlkaka\\test-mpool-1', NULL, '2025-07-24 07:16:11', '2025-07-24 07:16:11'),
+	(2, 2, 'Test', 'One', NULL, '256782002232', NULL, 'test2@test.com', 'Gayaza', NULL, 1, 500000, 1, 1, 'dlkaka\\test-mpool-2', NULL, '2025-07-24 07:16:11', '2025-07-24 07:16:11'),
+	(3, 3, 'Three', 'OneTes', NULL, '256782002231', NULL, 'test3@test.com', 'Gayaza', NULL, 1, 300000, 1, 1, 'dlkaka\\test-mpool-2', NULL, '2025-07-24 07:16:11', '2025-07-24 07:16:11'),
+	(4, 4, 'Three', 'OneTes', NULL, '256782002230', '256702002230', 'test4@test.com', 'Gayaza', NULL, 1, 900000, 2, 1, 'dlkaka\\test-mpool-2', NULL, '2025-07-24 07:16:11', '2025-07-24 07:16:11');
+/*!40000 ALTER TABLE `user_profile` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.withdraws
+CREATE TABLE IF NOT EXISTS `withdraws` (
+  `withdraw_id` int NOT NULL AUTO_INCREMENT,
+  `withdraw_number` varchar(50) DEFAULT NULL,
+  `withdraw_name` varchar(50) DEFAULT NULL,
+  `withdraw_amount` double DEFAULT NULL,
+  `withdraw_date` varchar(50) DEFAULT NULL,
+  `withdraw_userid` tinyint DEFAULT NULL,
+  `withdraw_status` tinyint DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`withdraw_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.withdraws: 0 rows
+/*!40000 ALTER TABLE `withdraws` DISABLE KEYS */;
+/*!40000 ALTER TABLE `withdraws` ENABLE KEYS */;
+
+-- Dumping structure for table dlkaka.withdraw_rules
+CREATE TABLE IF NOT EXISTS `withdraw_rules` (
+  `withdraw_rule_id` int NOT NULL AUTO_INCREMENT,
+  `withdraw_rule` varchar(50) DEFAULT NULL,
+  `withdraw_condition` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`withdraw_rule_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dlkaka.withdraw_rules: 1 rows
+/*!40000 ALTER TABLE `withdraw_rules` DISABLE KEYS */;
+INSERT INTO `withdraw_rules` (`withdraw_rule_id`, `withdraw_rule`, `withdraw_condition`) VALUES
+	(1, 'merry-go-round', 'rotational');
+/*!40000 ALTER TABLE `withdraw_rules` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
