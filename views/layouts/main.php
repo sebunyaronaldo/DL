@@ -43,7 +43,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
-        'items' => [
+        'items' => array_filter([
             ['label' => 'Dashboard', 'url' => ['/site/dashboard']],
             ['label' => 'Members', 'url' => ['/user-profile/index']],
             ['label' => 'Money Pools', 'url' => ['/money-pool/index']],
@@ -52,6 +52,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => 'Groups', 'url' => ['/group/index']],
             ['label' => 'Withdraws', 'url' => ['/withdraw/index']],
             ['label' => 'Savings', 'url' => ['/savings-pot/index']],
+            !Yii::$app->user->isGuest
+                ? ['label' => 'User Landing', 'url' => ['/site/user-landing']]
+                : null,
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
@@ -62,7 +65,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     )
                     . Html::endForm()
                     . '</li>'
-        ]
+        ]),
     ]);
     NavBar::end();
     ?>

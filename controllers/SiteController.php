@@ -289,4 +289,50 @@ class SiteController extends Controller
             'totalUserAmountCollected' => $totalUserAmountCollected,
         ];
     }
+
+    /**
+     * User landing page: view deposits, savings, and create withdraw
+     */
+    public function actionUserLanding()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+        $userId = Yii::$app->user->id;
+        // Fetch deposits for this user
+        $deposits = \app\models\Deposit::find()->where(['depositor_userid' => $userId])->all();
+        // Fetch savings for this user
+        $savings = \app\models\SavingsPot::find()->where(['savings_pot_taker_curr' => $userId])->all();
+        // Withdraw form
+        $withdraw = new \app\models\Withdraw();
+        $withdrawSuccess = false;
+        if ($withdraw->load(Yii::$app->request->post()) && $withdraw->validate()) {
+            $withdraw->user_id = $userId;
+            $withdraw->withdraw_userid = $userId;
+            $withdraw->withdraw_status = 0; // pending
+            $withdraw->withdraw_date = date('Y-m-d');
+            $withdraw->save(false);
+            $withdrawSuccess = true;
+            $withdraw = new \app\models\Withdraw(); // reset form
+        }
+        // Deposit form
+        $deposit = new \app\models\Deposit();
+        $depositSuccess = false;
+        if ($deposit->load(Yii::$app->request->post()) && $deposit->validate()) {
+            $deposit->depositor_userid = $userId;
+            $deposit->deposit_email = Yii::$app->user->identity->email ?? null;
+            $deposit->depositor_name = Yii::$app->user->identity->username ?? null;
+            $deposit->save(false);
+            $depositSuccess = true;
+            $deposit = new \app\models\Deposit(); // reset form
+        }
+        return $this->render('user-landing', [
+            'deposits' => $deposits,
+            'savings' => $savings,
+            'withdraw' => $withdraw,
+            'withdrawSuccess' => $withdrawSuccess,
+            'deposit' => $deposit,
+            'depositSuccess' => $depositSuccess,
+        ]);
+    }
 }
