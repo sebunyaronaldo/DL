@@ -326,6 +326,18 @@ class SiteController extends Controller
             $depositSuccess = true;
             $deposit = new \app\models\Deposit(); // reset form
         }
+        // Fetch user profile for sidebar and balance
+        $userProfile = \app\models\UserProfile::find()->where(['user_id' => $userId])->one();
+        // Calculate total savings
+        $totalSavings = (float) (\app\models\SavingsPot::find()->where(['savings_pot_taker_curr' => $userId])->sum('savings_pot_amount') ?: 0);
+        // Calculate total withdrawn (status 1 = completed)
+        $totalWithdrawn = (float) (\app\models\Withdraw::find()->where(['user_id' => $userId, 'withdraw_status' => 1])->sum('withdraw_amount') ?: 0);
+        // Calculate total deposits
+        $depositSum = (float) (\app\models\Deposit::find()->where(['depositor_userid' => $userId])->sum('deposit_amount') ?: 0);
+        // Use profile balance if available, else calculate
+        $balance = $userProfile && $userProfile->balance !== null
+            ? $userProfile->balance
+            : ($depositSum + $totalSavings - $totalWithdrawn);
         return $this->render('user-landing', [
             'deposits' => $deposits,
             'savings' => $savings,
@@ -333,6 +345,10 @@ class SiteController extends Controller
             'withdrawSuccess' => $withdrawSuccess,
             'deposit' => $deposit,
             'depositSuccess' => $depositSuccess,
+            'userProfile' => $userProfile,
+            'balance' => $balance,
+            'totalSavings' => $totalSavings,
+            'totalWithdrawn' => $totalWithdrawn,
         ]);
     }
 }

@@ -2,9 +2,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'User Landing Page';
+$this->title = 'My Dashboard';
 ?>
-<h1>User Landing Page</h1>
+<h1>My Dashboard</h1>
 
 <?php if ($withdrawSuccess): ?>
     <div class="alert alert-success">Withdraw request submitted successfully!</div>
@@ -51,7 +51,7 @@ $this->title = 'User Landing Page';
 
 <!-- Deposit Creation Modal Trigger -->
 <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#depositModal">
-    Add Deposit
+    Make Deposit
 </button>
 
 <!-- Withdraw Modal -->
@@ -98,9 +98,52 @@ $this->title = 'User Landing Page';
   </div>
 </div>
 
-<h2>Your Deposits</h2>
-<table class="table table-bordered">
-    <thead>
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card mb-3">
+      <div class="card-header bg-primary text-white">Profile</div>
+      <div class="card-body">
+        <h5 class="card-title mb-1"><?= $userProfile ? Html::encode($userProfile->fname . ' ' . $userProfile->lname) : '' ?></h5>
+        <div><strong>Email:</strong> <?= $userProfile ? Html::encode($userProfile->user_email) : '' ?></div>
+        <div><strong>Phone:</strong> <?= $userProfile ? Html::encode($userProfile->mm_number) : '' ?></div>
+        <div><strong>Location:</strong> <?= $userProfile ? Html::encode($userProfile->location) : '' ?></div>
+        <a href="<?= \yii\helpers\Url::to(['/user-profile/update', 'id' => $userProfile ? $userProfile->user_profile_id : 0]) ?>" class="btn btn-link p-0 mt-2">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header">Current Balance</div>
+          <div class="card-body">
+            <h5 class="card-title"><?= number_format($balance, 2) ?></h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+          <div class="card-header">Total Savings</div>
+          <div class="card-body">
+            <h5 class="card-title"><?= number_format($totalSavings, 2) ?></h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-header">Total Withdrawn</div>
+          <div class="card-body">
+            <h5 class="card-title"><?= number_format($totalWithdrawn, 2) ?></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>My Deposits</h2>
+<table class="table table-bordered border-success">
+    <thead class="table-success">
         <tr>
             <th>ID</th>
             <th>Amount</th>
@@ -112,15 +155,15 @@ $this->title = 'User Landing Page';
             <tr>
                 <td><?= Html::encode($deposit->deposit_id) ?></td>
                 <td><?= Html::encode($deposit->deposit_amount) ?></td>
-                <td><?= Html::encode($deposit->created_at) ?></td>
+                <td><?= Yii::$app->formatter->asRelativeTime($deposit->created_at) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
 
-<h2>Your Savings</h2>
-<table class="table table-bordered">
-    <thead>
+<h2>My Savings</h2>
+<table class="table table-bordered border-info">
+    <thead class="table-info">
         <tr>
             <th>ID</th>
             <th>Amount</th>
@@ -134,7 +177,7 @@ $this->title = 'User Landing Page';
                 <td><?= Html::encode($saving->savings_pot_id) ?></td>
                 <td><?= Html::encode($saving->savings_pot_amount) ?></td>
                 <td><?= $saving->claimed_status ? 'Yes' : 'No' ?></td>
-                <td><?= Html::encode($saving->created_at) ?></td>
+                <td><?= Yii::$app->formatter->asRelativeTime($saving->created_at) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
