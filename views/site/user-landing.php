@@ -141,44 +141,49 @@ $this->title = 'My Dashboard';
   </div>
 </div>
 
-<h2>My Deposits</h2>
-<table class="table table-bordered border-success">
-    <thead class="table-success">
-        <tr>
-            <th>ID</th>
-            <th>Amount</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($deposits as $deposit): ?>
+<div class="row">
+  <div class="col-md-6">
+    <h2>My Deposits</h2>
+    <table class="table table-bordered border-success">
+        <thead class="table-success">
             <tr>
-                <td><?= Html::encode($deposit->deposit_id) ?></td>
-                <td><?= Html::encode($deposit->deposit_amount) ?></td>
-                <td><?= Yii::$app->formatter->asRelativeTime($deposit->created_at) ?></td>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Date</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-
-<h2>My Savings</h2>
-<table class="table table-bordered border-info">
-    <thead class="table-info">
-        <tr>
-            <th>ID</th>
-            <th>Amount</th>
-            <th>Claimed</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($savings as $saving): ?>
+        </thead>
+        <tbody>
+            <?php foreach ($deposits as $deposit): ?>
+                <tr>
+                    <td><?= Html::encode($deposit->deposit_id) ?></td>
+                    <td><?= Html::encode($deposit->deposit_amount) ?></td>
+                    <td><?= Yii::$app->formatter->asRelativeTime($deposit->created_at) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h2>My Savings</h2>
+    <table class="table table-bordered border-info">
+        <thead class="table-info">
             <tr>
-                <td><?= Html::encode($saving->savings_pot_id) ?></td>
-                <td><?= Html::encode($saving->savings_pot_amount) ?></td>
-                <td><?= $saving->claimed_status ? 'Yes' : 'No' ?></td>
-                <td><?= Yii::$app->formatter->asRelativeTime($saving->created_at) ?></td>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Claimed</th>
+                <th>Date</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table> 
+        </thead>
+        <tbody>
+            <?php foreach ($savings as $saving): ?>
+                <tr>
+                    <td><?= Html::encode($saving->savings_pot_id) ?></td>
+                    <td><?= Html::encode($saving->savings_pot_amount) ?></td>
+                    <td><?= $saving->claimed_status ? 'Yes' : 'No' ?></td>
+                    <td><?= Yii::$app->formatter->asRelativeTime($saving->created_at) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+  </div>
+</div> 
